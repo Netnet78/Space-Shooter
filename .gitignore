@@ -1,0 +1,12 @@
+__pycache__
+.venv
+ai
+build
+cdr
+dist
+eps
+png
+sfx
+main.spec
+~space_shooter_installation.DDF
+space_shooter_installation.SED
