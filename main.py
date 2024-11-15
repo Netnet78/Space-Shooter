@@ -5,14 +5,27 @@ from entity import Player, Enemy
 pygame.init()
 pygame.font.init()
 
-my_font = pygame.font.SysFont('Comic Sans MS', 20)
-game_over_font = pygame.font.SysFont('Comic Sans MS', 60)
-retry = pygame.font.SysFont('Comic Sans MS', 18)
+# Scaling
+SCALE_FACTOR = 2
+
+# Fonts
+my_font = pygame.font.SysFont('Comic Sans MS', 20 * SCALE_FACTOR)
+game_over_font = pygame.font.SysFont('Comic Sans MS', 60 * SCALE_FACTOR)
+retry = pygame.font.SysFont('Comic Sans MS', 18 * SCALE_FACTOR)
 
 pygame.display.set_caption("Classic Space Shooter")
 screen_width = 1400
 screen_height = 800
 WINDOW = pygame.display.set_mode((screen_width, screen_height))
+
+# Background image
+background_image = pygame.image.load("assets/Space Background.png").convert()
+game_background = pygame.transform.scale(background_image,(screen_width * 12, screen_height * 12))
+map_rect = game_background.get_rect()
+MAP_WIDTH = game_background.get_width()
+MAP_HEIGHT = game_background.get_height()
+map_x = -MAP_WIDTH//2 + screen_width//2
+map_y = -MAP_HEIGHT//2 + screen_height//2
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -33,6 +46,23 @@ last_respawn_time = pygame.time.get_ticks()
 for _ in range(1):  # Start with a few enemies
     enemy = Enemy()
     enemies.add(enemy)
+
+def update_map():
+    global map_x, map_y
+
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    direction_x = (mouse_x - screen_width // 2) / screen_width
+    direction_y = (mouse_y - screen_height // 2) / screen_height
+
+    map_speed = 7 * SCALE_FACTOR
+
+    # Update map position
+    new_map_x = map_x - direction_x * map_speed
+    new_map_y = map_y - direction_y * map_speed
+
+    # Ensure the map stays within the boundaries
+    map_x = max(-(MAP_WIDTH + 10 - screen_width), min(10, new_map_x))
+    map_y = max(-(MAP_HEIGHT + 10 - screen_height), min(10, new_map_y))
 
 def show_game_over():
     WINDOW.fill(BLACK)
@@ -76,6 +106,12 @@ while True:
         # Clear screen
         WINDOW.fill(BLACK)
 
+        # Update map position
+        update_map()
+
+        # Draw background
+        WINDOW.blit(game_background, (map_x, map_y))
+        
         # Draw everything
         P1.draw_self(WINDOW)
         enemies.draw(WINDOW)
