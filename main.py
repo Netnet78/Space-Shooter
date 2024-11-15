@@ -20,7 +20,7 @@ WINDOW = pygame.display.set_mode((screen_width, screen_height))
 
 # Background image
 background_image = pygame.image.load("assets/Space Background.png").convert()
-game_background = pygame.transform.scale(background_image,(screen_width * 12, screen_height * 12))
+game_background = pygame.transform.scale(background_image,(screen_width * 14, screen_height * 14))
 map_rect = game_background.get_rect()
 MAP_WIDTH = game_background.get_width()
 MAP_HEIGHT = game_background.get_height()
