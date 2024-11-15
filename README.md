@@ -26,13 +26,14 @@ Feel free to contribute if you have any suggestion or issue with the code and I 
 Anyways I am kind of new on github so feel free to contribute and I will be making changes to this repository to keep you guys updated!😊
 
 ## Tasks to complete 🧑‍💻
+
 - [x] Added player and enemies
 - [x] Make a score system
 - [x] Shooting Mechanism
-- [ ] Refine the design of the map
+- [x] Refine the design of the map
 - [ ] Add a home screen
 - [ ] Add more enemy types
 - [ ] Add powerups
 - [ ] Add levels system
 - [ ] Add difficulty system
-- [ ] Fix enemy spawnpoints
+- [x] Fix enemy spawnpoints
