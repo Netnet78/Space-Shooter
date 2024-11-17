@@ -31,7 +31,7 @@ Anyways I am kind of new on github so feel free to contribute and I will be maki
 - [x] Make a score system
 - [x] Shooting Mechanism
 - [x] Refine the design of the map
-- [ ] Add a home screen
+- [x] Add a home screen
 - [ ] Add more enemy types
 - [ ] Add powerups
 - [ ] Add levels system
