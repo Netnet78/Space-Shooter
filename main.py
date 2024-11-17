@@ -1,6 +1,7 @@
 import pygame
 import sys
 from entity import Player, Enemy
+import assets
 
 pygame.init()
 pygame.font.init()
@@ -20,7 +21,8 @@ WINDOW = pygame.display.set_mode((screen_width, screen_height))
 
 # Background image
 background_image = pygame.image.load("assets/Space Background.png").convert()
-game_background = pygame.transform.scale(background_image,(screen_width * 14, screen_height * 14))
+game_background = pygame.transform.scale(background_image,(screen_width * 10, screen_height * 12))
+
 map_rect = game_background.get_rect()
 MAP_WIDTH = game_background.get_width()
 MAP_HEIGHT = game_background.get_height()
@@ -35,6 +37,10 @@ ORANGE = (255, 165, 0)
 FPS = 60
 FramesPerSecond = pygame.time.Clock()
 
+# Game map initialization
+game_map = assets.GameMap(game_background,WINDOW)
+
+# Entity initialization
 P1 = Player()
 enemies = pygame.sprite.Group()
 
@@ -46,23 +52,6 @@ last_respawn_time = pygame.time.get_ticks()
 for _ in range(1):  # Start with a few enemies
     enemy = Enemy()
     enemies.add(enemy)
-
-def update_map():
-    global map_x, map_y
-
-    mouse_x, mouse_y = pygame.mouse.get_pos()
-    direction_x = (mouse_x - screen_width // 2) / screen_width
-    direction_y = (mouse_y - screen_height // 2) / screen_height
-
-    map_speed = 7 * SCALE_FACTOR
-
-    # Update map position
-    new_map_x = map_x - direction_x * map_speed
-    new_map_y = map_y - direction_y * map_speed
-
-    # Ensure the map stays within the boundaries
-    map_x = max(-(MAP_WIDTH + 10 - screen_width), min(10, new_map_x))
-    map_y = max(-(MAP_HEIGHT + 10 - screen_height), min(10, new_map_y))
 
 def show_game_over():
     WINDOW.fill(BLACK)
@@ -107,10 +96,8 @@ while True:
         WINDOW.fill(BLACK)
 
         # Update map position
-        update_map()
-
-        # Draw background
-        WINDOW.blit(game_background, (map_x, map_y))
+        game_map.render()
+        game_map.update(7 * SCALE_FACTOR)
         
         # Draw everything
         P1.draw_self(WINDOW)
