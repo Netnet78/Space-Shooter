@@ -37,6 +37,10 @@ class UI(pygame.sprite.Sprite):
         super().__init__()
         pass
 
+class GameOver(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        pass
 
 if __name__ == "__main__":
     
