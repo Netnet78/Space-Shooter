@@ -2,12 +2,13 @@ import pygame
 import sys
 from entity import Player, Enemy
 import assets
+import ui
 
 pygame.init()
 pygame.font.init()
 
 # Scaling
-SCALE_FACTOR = 2
+SCALE_FACTOR = ui.SCALE_FACTOR
 
 # Fonts
 my_font = pygame.font.SysFont('Comic Sans MS', 20 * SCALE_FACTOR)

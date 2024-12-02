@@ -18,7 +18,7 @@ class Render:
         super().__init__()
         self.sprite_folder = sprite_folder
         self.screen = screen
-        self.header_animation = ani.Float(self.sprite_folder)
+        self.header_animation = ani.Float(True,self.sprite_folder)
         self.animation_speed = 0.05
 
     def initialize(self):
