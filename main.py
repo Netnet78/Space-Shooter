@@ -15,7 +15,7 @@ my_font = pygame.font.SysFont('Comic Sans MS', 20 * SCALE_FACTOR)
 game_over_font = pygame.font.SysFont('Comic Sans MS', 60 * SCALE_FACTOR)
 retry = pygame.font.SysFont('Comic Sans MS', 18 * SCALE_FACTOR)
 
-pygame.display.set_caption("Classic Space Shooter")
+pygame.display.set_caption("Space shooter")
 screen_width = 1400
 screen_height = 800
 WINDOW = pygame.display.set_mode((screen_width, screen_height))
@@ -38,6 +38,9 @@ ORANGE = (255, 165, 0)
 FPS = 60
 FramesPerSecond = pygame.time.Clock()
 
+# User interface initialization
+
+
 # Game map initialization
 game_map = assets.GameMap(game_background,WINDOW)
 
@@ -56,16 +59,8 @@ for _ in range(1):  # Start with a few enemies
 
 def show_game_over():
     WINDOW.fill(BLACK)
-    game_over_surface = game_over_font.render('Game Over', True, RED)
-    score_surface = my_font.render(f"Score: {P1.player_score}", True, WHITE)
-    retry_surface = retry.render("Press \"R\" to retry!", True, WHITE)
-    game_over_rect = game_over_surface.get_rect(center=(screen_width // 2, screen_height // 2 - 30))
-    score_rect = score_surface.get_rect(center=(screen_width // 2, screen_height // 2 + 30))
-    retry_rect = retry_surface.get_rect(center=(screen_width // 2, screen_height // 2 + 60))
-    WINDOW.blit(game_over_surface, game_over_rect)
-    WINDOW.blit(score_surface, score_rect)
-    WINDOW.blit(retry_surface, retry_rect)
-    pygame.display.update()
+
+    pygame.display.flip()
     
 def handle_game_over():
     while True:
@@ -80,6 +75,7 @@ def handle_game_over():
                     
         # Show the game over screen
         show_game_over()
+        return False
 
 while True:
     for event in pygame.event.get():
@@ -115,17 +111,20 @@ while True:
         if len(enemies) == 0 or (current_time - last_respawn_time >= respawn_delay and len(enemies) < 5):
             new_enemy = Enemy()
             enemies.add(new_enemy)
-            last_respawn_time = current_time  # Update the last respawn time
+            last_respawn_time = current_time  # Update the last respawn times
 
-    else:
+    if P1.player_dead:
         # Handle game over
+        game_over = ui.GameOver(WINDOW, 0)
+        game_over.update()
         if handle_game_over():
             # Restart game logic
             P1 = Player()  # Recreate the player
             enemies.empty()  # Remove all enemies
+            
             for _ in range(1):  # Recreate initial enemies
                 enemy = Enemy()
                 enemies.add(enemy)
 
-    pygame.display.update()
+    pygame.display.flip()
     FramesPerSecond.tick(FPS)

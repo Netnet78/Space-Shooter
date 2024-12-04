@@ -59,7 +59,7 @@ class GameOver(pygame.sprite.Sprite):
         self.yes_text = ui_components.YesNo.YesText(self.screen)
         self.no_text =ui_components.YesNo.NoText(self.screen)
 
-    def update(self):
+    def render(self):
         self.game_over_text.render(self.screen)
         self.game_over_text.play_audio()
 
@@ -83,7 +83,7 @@ if __name__ == "__main__":
                 sys.exit()
         # Clear the screen
         screen.fill((0,0,0))
-        startup.render()
+        game_over.render()
 
         pygame.display.flip()
         clock.tick(60)

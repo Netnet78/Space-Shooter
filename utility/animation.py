@@ -6,10 +6,11 @@ pygame.init()
 SCALE_FACTOR = 4
 
 
-def load_sprite_frames(is_folder, sprites, default=None):
+def load_sprite_frames(is_folder:bool, sprites:str, default=None):
     if not sprites:
         return default
-    sprites = sprites if is_folder is False else utility.load_sprites(sprites)
+    image = sprites
+    sprites = image if is_folder is False else utility.load_sprites(sprites)
     return sprites
 
 
@@ -67,7 +68,7 @@ class BaseAnimation(pygame.sprite.Sprite):
 
 
 class Float(BaseAnimation):
-    def __init__(self, is_folder=False, sprites="", hover_sprites=None, clicked_sprites=None, speed=0.1, x=0):
+    def __init__(self, is_folder=False, sprites:str="", hover_sprites=None, clicked_sprites=None, speed=0.1, x=0):
         super().__init__(is_folder, sprites, hover_sprites, clicked_sprites, speed)
         self.x_position = x
         
@@ -124,10 +125,9 @@ class Slide(BaseAnimation):
 
     def start_animation(self, start_width, target_width, speed=0.05):
         if self.position is None:
-            self.position =[start_width, self.y]
+            self.position = [start_width, self.y]
 
         if self.position[0] != target_width:
-            distance = abs(target_width - self.position[0])
             self.position[0] += (target_width - self.position[0]) * speed
             self.animation_done = True
 
@@ -138,8 +138,6 @@ class Slide(BaseAnimation):
             self.current_sprite.set_alpha(255)
 
     def update_sprite(self, surface):
-        if not self.position:
-            return
             
         mouse_pos = pygame.mouse.get_pos()
         mouse_click = pygame.mouse.get_pressed()[0]
